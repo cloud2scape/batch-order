@@ -11,12 +11,12 @@ public class OrderDirectDBAdapter {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public int updateOrderState(OrderState before, OrderState after, int week) {
+    public int updateOrderState(OrderState desired, OrderState now, int week) {
         String sql = "UPDATE `order` SET order_state= ? " +
                 "WHERE order_state = ? " +
                 "AND order_date < DATE_SUB(NOW(), INTERVAL ? WEEK)";
 
-        return jdbcTemplate.update(sql, after.name(), before.name(), week);
+        return jdbcTemplate.update(sql, desired.name(), now.name(), week);
     }
 
     public int deleteOrder(OrderState desired, int week) {
